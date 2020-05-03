@@ -1,0 +1,21 @@
+{
+  "name": "command-processor",
+  "version": "1.0.0",
+  "description": "Ultra simple helper that turns command line arguments into an easy-to-use options-object",
+  "main": "main.js",
+  "scripts": {
+    "test": "node ./test.js"
+  },
+  "keywords": [
+    "command",
+    "arguments",
+    "options",
+    "parser"
+  ],
+  "author": "kilian kilian@catsoft.ch",
+  "license": "MIT",
+  "devDependencies": {
+    "standard": "^14.3.3"
+  },
+  "type": "module"
+}
