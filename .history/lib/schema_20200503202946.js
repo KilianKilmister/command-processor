@@ -77,7 +77,7 @@ export class Schema {
           }
         } else if (this.filter) delete config[_option]
       }
-      return callback(null, config)
+      callback(null, config)
     } catch (err) {
       callback(err)
     }
@@ -112,11 +112,11 @@ export class Schema {
       ...schema.processEnv ? processEnv(schema) : {},
       ...schema.processSTDIN ? argOptions : {}
     }
-    return schema.validateSync(workingConfig, (err, final) => {
-      workingConfig._index = this.history.length
+    schema.validateSync(workingConfig, (err, final) => {
+      workingConfig.index = this.history.length
       this.history.push(workingConfig)
-      if (err) { workingConfig._succeeded = false; throw err }
-      workingConfig._succeeded = true
+      if (err) { workingConfig.succeeded = false; throw err }
+      workingConfig.succeeded = true
       return workingConfig
     })
   }

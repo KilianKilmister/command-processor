@@ -42,7 +42,7 @@ export class Schema {
             } else { // do typeCheck if requested
               if (option.typeof) {
                 if (
-                  ![option.typeof]
+                  [option.typeof]
                     .flat() // eslint-disable-next-line valid-typeof
                     .every(value => typeof config[_option] === value)
                 ) {
@@ -77,7 +77,7 @@ export class Schema {
           }
         } else if (this.filter) delete config[_option]
       }
-      return callback(null, config)
+      callback(null, config)
     } catch (err) {
       callback(err)
     }
@@ -89,7 +89,7 @@ export class Schema {
    * @param {Schema} schemaTweaks
    */
   init (config = {}, schemaTweaks) {
-    const schema = Object.assign(Object.create(Schema.prototype), this, schemaTweaks)
+    const schema = Object.assign(Object.create(this), schemaTweaks)
     const argOptions = processArgs(schema)
     const configFile = (() => {
       switch (true) {
@@ -107,16 +107,16 @@ export class Schema {
     })()
     const workingConfig = {
       ...schema.defaults,
-      ...schema.configFile ? JSON.parse(fs.readFileSync(configFile)) : {},
+      ...schema.configFile ? configFile : {},
       ...config,
       ...schema.processEnv ? processEnv(schema) : {},
       ...schema.processSTDIN ? argOptions : {}
     }
     return schema.validateSync(workingConfig, (err, final) => {
-      workingConfig._index = this.history.length
+      workingConfig.index = this.history.length
       this.history.push(workingConfig)
-      if (err) { workingConfig._succeeded = false; throw err }
-      workingConfig._succeeded = true
+      if (err) { workingConfig.succeeded = false; throw err }
+      workingConfig.succeeded = true
       return workingConfig
     })
   }
