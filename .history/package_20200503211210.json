@@ -2,7 +2,7 @@
   "name": "@slick_kilmister/command-processor",
   "version": "1.0.0",
   "description": "Ultra simple helper that turns command line arguments into an easy-to-use options-object",
-  "main": "./lib/main.js",
+  "main": "main.js",
   "scripts": {
     "test": "node ./test.js"
   },
