@@ -13,4 +13,9 @@ const schema = new Schema({
   env: 'CMD_ARGS'
 })
 
-console.log(schema)
+process.argv.push(
+  ...'-ST some-target some-path et reprehenderit -c some-config -s --forward some-forward'
+    .split(' '))
+
+const options = cmdArgs.processArgs(config)
+console.log(options)

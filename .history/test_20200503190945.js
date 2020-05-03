@@ -1,6 +1,6 @@
 import { Schema } from './lib/main.js'
 
-const schema = new Schema({
+const config = {
   flags: {
     config: { alias: ['c', '--config'], param: 'path' },
     target: { alias: ['-T', '--target'], param: 'path' },
@@ -9,8 +9,15 @@ const schema = new Schema({
     key: { alias: ['-K', '--key'], param: 'path' },
     cert: { alias: ['-C', '--cert'], param: 'path' }
   },
-
+  noOpt: 'path',
+  includeExec: false,
+  includeFile: false,
   env: 'CMD_ARGS'
-})
+}
 
-console.log(schema)
+process.argv.push(
+  ...'-ST some-target some-path et reprehenderit -c some-config -s --forward some-forward'
+    .split(' '))
+
+const options = cmdArgs.processArgs(config)
+console.log(options)

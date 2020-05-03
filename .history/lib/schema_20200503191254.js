@@ -133,7 +133,12 @@ var masterSchema = new Schema({
   options: {
     STDIN: {
       typeof: ['boolean', 'object'],
-      schema: STDIN
+      schema: {
+        options: {
+          includeExec: { typeof: 'boolean' },
+          includeFile: { typeof: 'boolean' },
+          noOpt: { default: 'noOpt', typeof: 'string' }
+        }
       }
     },
     checkENV: { typeof: ['string', 'boolean'] },
