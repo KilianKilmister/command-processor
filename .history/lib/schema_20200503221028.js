@@ -69,7 +69,7 @@ export class Schema {
           } else {
           // is there a default?
             if (option.default) {
-              this.defaults[_option] = option.default
+              this.defaults.push({ [_option]: option.default })
             // is the option required?
             } else if (option.required) {
               if (config[_option] === undefined) throw new Error(`>> invalid config: "${_option}" is not defined`)
@@ -105,8 +105,8 @@ export class Schema {
           return {}
       }
     })()
+    const defaults = schema.defaults.
     const workingConfig = {
-      ...schema.defaults,
       ...schema.configFile ? JSON.parse(fs.readFileSync(configFile)) : {},
       ...config,
       ...schema.processEnv ? processEnv(schema) : {},

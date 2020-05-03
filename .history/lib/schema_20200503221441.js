@@ -106,7 +106,7 @@ export class Schema {
       }
     })()
     const workingConfig = {
-      ...schema.defaults,
+      ...defaults
       ...schema.configFile ? JSON.parse(fs.readFileSync(configFile)) : {},
       ...config,
       ...schema.processEnv ? processEnv(schema) : {},
