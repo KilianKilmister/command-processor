@@ -5,7 +5,7 @@
  */
 export function processArgs (schema) {
   for (const option in schema.options) {
-    if (schema.options[option].alias) {
+    if (schema.options[option]) {
       schema.options[option].alias = schema.options[option].alias.map((alias) => {
         if (!alias.startsWith('-')) alias = ('-' + alias)
         if (!alias.startsWith('--') && alias.length > 2) alias = ('-' + alias)

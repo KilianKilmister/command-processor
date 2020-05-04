@@ -4,20 +4,13 @@ import { processArgs, processEnv } from './utils.js'
 export class Schema {
   constructor (_config) {
     this.history = []
+    this.defaults = {}
     if (masterSchema) {
-      return Object.assign(this, masterSchema.init(_config))
+      masterSchema.validateSync(_config, (err, config) => {
+        if (err) throw err
+        return Object.assign(this, config)
+      })
     } return Object.assign(this, _config)
-  }
-
-  get defaults () {
-    return Object.entries(this.options).filter((pair) => {
-      return pair[1].default !== undefined
-    }).reduce((prev, curr) => {
-      return {
-        ...prev,
-        [curr[0]]: curr[1].default
-      }
-    }, {})
   }
 
   get totalInitCount () { return this.history.length }
@@ -74,7 +67,11 @@ export class Schema {
               }
             } // if the option is undefined
           } else {
-            if (option.required) {
+          // is there a default?
+            if (option.default) {
+              this.defaults[_option] = option.default
+            // is the option required?
+            } else if (option.required) {
               if (config[_option] === undefined) throw new Error(`>> invalid config: "${_option}" is not defined`)
             }
           }
@@ -116,11 +113,11 @@ export class Schema {
       ...schema.processSTDIN ? argOptions : {}
     }
     return schema.validateSync(workingConfig, (err, final) => {
-      final._index = this.history.length
-      this.history.push(final)
-      if (err) { final._succeeded = false; throw err }
-      final._succeeded = true
-      return final
+      workingConfig._index = this.history.length
+      this.history.push(workingConfig)
+      if (err) { workingConfig._succeeded = false; throw err }
+      workingConfig._succeeded = true
+      return workingConfig
     })
   }
 }

@@ -10,14 +10,14 @@ export class Schema {
   }
 
   get defaults () {
-    return Object.entries(this.options).filter((pair) => {
-      return pair[1].default !== undefined
-    }).reduce((prev, curr) => {
-      return {
-        ...prev,
-        [curr[0]]: curr[1].default
-      }
+    return Object.keys(this.options).reduce((prev, curr) => {
+      if (this.options[curr].default)
+      return Object.assign(prev, this.options[curr].default ? {[curr]: this.options[curr].default})
     }, {})
+    this.options
+    for (const option in this.options) {
+      if (this.options[option].default)
+    }
   }
 
   get totalInitCount () { return this.history.length }

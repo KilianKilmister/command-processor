@@ -4,14 +4,15 @@
  * @returns object of option/value pairs
  */
 export function processArgs (schema) {
-  for (const option in schema.options) {
-    if (schema.options[option].alias) {
-      schema.options[option].alias = schema.options[option].alias.map((alias) => {
-        if (!alias.startsWith('-')) alias = ('-' + alias)
-        if (!alias.startsWith('--') && alias.length > 2) alias = ('-' + alias)
-        return alias
-      })
-    }
+  for (const flag in schema.options) {
+    if (schema.options.flag.alias)
+    { 
+schema.options[flag].alias = schema.options[flag].alias.map((alias) => {
+      if (!alias.startsWith('-')) alias = ('-' + alias)
+      if (!alias.startsWith('--') && alias.length > 2) alias = ('-' + alias)
+      return alias
+    }) 
+}
   }
   const args = process.argv
   const noOpt = schema.noOpt

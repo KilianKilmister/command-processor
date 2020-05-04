@@ -4,20 +4,16 @@ import { processArgs, processEnv } from './utils.js'
 export class Schema {
   constructor (_config) {
     this.history = []
+    this.defaults = {}
     if (masterSchema) {
       return Object.assign(this, masterSchema.init(_config))
     } return Object.assign(this, _config)
   }
 
   get defaults () {
-    return Object.entries(this.options).filter((pair) => {
-      return pair[1].default !== undefined
-    }).reduce((prev, curr) => {
-      return {
-        ...prev,
-        [curr[0]]: curr[1].default
-      }
-    }, {})
+    for (const option in this.options) {
+
+    }
   }
 
   get totalInitCount () { return this.history.length }

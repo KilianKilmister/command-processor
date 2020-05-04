@@ -12,12 +12,7 @@ export class Schema {
   get defaults () {
     return Object.entries(this.options).filter((pair) => {
       return pair[1].default !== undefined
-    }).reduce((prev, curr) => {
-      return {
-        ...prev,
-        [curr[0]]: curr[1].default
-      }
-    }, {})
+    }).reduce((prev, curr) => {}, {})
   }
 
   get totalInitCount () { return this.history.length }

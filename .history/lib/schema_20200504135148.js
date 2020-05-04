@@ -4,22 +4,14 @@ import { processArgs, processEnv } from './utils.js'
 export class Schema {
   constructor (_config) {
     this.history = []
+    this.defaults = {}
     if (masterSchema) {
       return Object.assign(this, masterSchema.init(_config))
     } return Object.assign(this, _config)
   }
+  get deafaults () {
 
-  get defaults () {
-    return Object.entries(this.options).filter((pair) => {
-      return pair[1].default !== undefined
-    }).reduce((prev, curr) => {
-      return {
-        ...prev,
-        [curr[0]]: curr[1].default
-      }
-    }, {})
   }
-
   get totalInitCount () { return this.history.length }
   get successCount () { return this.history.filter((el) => el.succeeded).length }
   get failCount () { return this.history.filter((el) => !el.succeeded).length }
@@ -74,7 +66,11 @@ export class Schema {
               }
             } // if the option is undefined
           } else {
-            if (option.required) {
+          // is there a default?
+            if (option.default) {
+              this.defaults[_option] = option.default
+            // is the option required?
+            } else if (option.required) {
               if (config[_option] === undefined) throw new Error(`>> invalid config: "${_option}" is not defined`)
             }
           }
